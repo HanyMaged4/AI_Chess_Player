@@ -1,10 +1,25 @@
-# This is a sample Python script.
+import pygame
+import sys
+from config import Configrations
+from Game import Game
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+pygame.init()
 
+screen = pygame.display.set_mode(Configrations.WINDOW)
+pygame.display.set_caption(Configrations.TITLE)
 
-def print_hi(name):
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+def main():
+    clock = pygame.time.Clock()
+    game = Game(screen)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            game.event_loop(event)
+        game.game_loop()
+        pygame.display.flip()
+        clock.tick(30)
+
+if __name__ == "__main__":
+    main()
