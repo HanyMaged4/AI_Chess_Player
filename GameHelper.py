@@ -2,12 +2,14 @@ from config import Configrations
 import pygame
 class GameHelper:
     @staticmethod
-    def get_mouse_pos(pos):
-        x = int(pos[1] / Configrations.SQUARE_SIZE)
-        y = int(pos[0] / Configrations.SQUARE_SIZE)
-        if(x < 8 and y < 8 and x>=0 and y >= 0 ):
-            return [x,y]
-        return [None,None]
+    def get_mouse_pos(mouse_pos):
+        mouse_x, mouse_y = mouse_pos
+        square_size = Configrations.SQUARE_SIZE
+        file = mouse_x // square_size
+        rank = (mouse_y // square_size)
+        if 0 <= file <= 7 and 0 <= rank <= 7:
+            return file, rank
+        return None, None
 
     @staticmethod
     def draw_board(screen):
