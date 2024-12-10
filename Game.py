@@ -2,7 +2,7 @@ import pygame
 from config import Configrations
 from GameHelper import GameHelper
 import chess
-
+from minimax import find_best_move
 class Game:
     def __init__(self, screen):
         self.screen = screen
@@ -63,6 +63,7 @@ class Game:
             # print(self.board.legal_moves)
             if move in self.board.legal_moves:
                 self.board.push(move)
+                self.board.push(find_best_move(self.board, depth=5))
             self.mouse_hold = None
             self.holdin_piece = None
             self.mouse_is_holding_piece = False
