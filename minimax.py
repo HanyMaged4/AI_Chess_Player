@@ -1,11 +1,9 @@
 import chess
-from evaluation import vlaue_state
+from evaluation import value_state
 
 def minimax_alpha_beta(board, depth, alpha, beta, is_maximizing):
-
     if depth == 0 or board.is_game_over():
-        return vlaue_state(board)
-
+        return value_state(board)
     legal_moves = list(board.legal_moves)
 
     if is_maximizing:
