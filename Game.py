@@ -56,18 +56,32 @@ class Game:
             y, x = GameHelper.get_mouse_pos(pos)
             if x is None or y is None:
                 return
+
             start_square = chess.square(self.mouse_hold[0], self.mouse_hold[1])
             end_square = chess.square(y, x)
-            move = chess.Move(start_square, end_square)
-            print(f'from {start_square} to {end_square} || {move}')
-            # print(self.board.legal_moves)
+            promotion = None
+
+            if self.board.piece_at(start_square).piece_type == chess.PAWN:
+                if (chess.square_rank(end_square) == 7 and chess.square_rank(start_square) == 6) or\
+                        (chess.square_rank(end_square) == 0 and chess.square_rank(start_square) == 1):
+                    promotion = chess.QUEEN
+            move = chess.Move(start_square, end_square, promotion=promotion)
             if move in self.board.legal_moves:
                 self.board.push(move)
-                self.board.push(find_best_move(self.board, depth=3))
+                if not self.board.is_game_over():
+                    move = find_best_move(self.board, depth=3)
+                    print(f'move : {move}')
+
+                    self.board.push(move)
+                else:
+                    print('Game over!')
+                    exit()
+            else:
+                print('Illegal move!')
+
             self.mouse_hold = None
             self.holdin_piece = None
             self.mouse_is_holding_piece = False
-
 
     def event_loop(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -78,7 +92,7 @@ class Game:
     def game_loop(self):
         GameHelper.draw_board(self.screen)
         self.draw_positions()
-        if self.mouse_is_holding_piece:
+        if self.mouse_is_holding_piece and not self.board.is_game_over():
             # print('dsds')
             x, y = GameHelper.get_mouse_pos(pygame.mouse.get_pos())
             if x is None:
