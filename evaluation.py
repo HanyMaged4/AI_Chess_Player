@@ -91,7 +91,7 @@ def evaluate_position(board):
 
 def value_state(board):
     if board.is_checkmate():
-        return -CHECKMATE if board.turn else CHECKMATE
+        return CHECKMATE if board.turn else -CHECKMATE
 
     if board.is_stalemate() or board.is_insufficient_material():
         return 0
