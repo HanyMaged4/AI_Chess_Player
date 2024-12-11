@@ -68,6 +68,7 @@ class Game:
             self.holdin_piece = None
             self.mouse_is_holding_piece = False
 
+
     def event_loop(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.handle_mouse_down(pygame.mouse.get_pos())
