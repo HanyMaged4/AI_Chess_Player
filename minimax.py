@@ -1,6 +1,8 @@
+import random
+
 import chess
 from evaluation import value_state
-
+valid_moves = []
 def minimax_alpha_beta(board, depth, alpha, beta, is_maximizing):
     if depth == 0 or board.is_game_over():
         return value_state(board)
@@ -37,9 +39,11 @@ def find_best_move(board, depth):
         board.push(move)
         eval = minimax_alpha_beta(board, depth - 1, float('-inf'), float('inf'), False)
         board.pop()
-
         if eval > max_eval:
+            list = [move]
             max_eval = eval
             best_move = move
+        elif eval == max_eval:
+            list.append(move)
 
-    return best_move
+    return random.choice(list)
