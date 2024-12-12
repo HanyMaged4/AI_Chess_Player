@@ -104,3 +104,24 @@ def value_state(board):
 
     return total_score
 
+def value_state2 (board):
+    if board.is_checkmate():
+        return CHECKMATE if board.turn else -CHECKMATE
+    
+    if board.is_stalemate() or board.is_insufficient_material():
+        return 0
+
+    if board.turn:
+        return -1 
+    
+    total_score = 0
+
+    for square in chess.SQUARES:
+        piece = board.piece_at(square)
+        if piece:
+            piecevalue = PIECE_VALUES[piece.piece_type]
+            if piece.color == chess.WHITE:
+                score+= piecevalue
+            else:
+                score-= piecevalue
+    return total_score
