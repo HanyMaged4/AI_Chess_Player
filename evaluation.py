@@ -113,7 +113,7 @@ def value_state2 (board):
 
     if board.turn:
         return -1 
-    
+     
     total_score = 0
 
     for square in chess.SQUARES:
