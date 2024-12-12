@@ -20,6 +20,8 @@ class Game:
         self.holdin_piece = None
         self.mouse_is_holding_piece = False
         self.board = chess.Board()
+        self.move_sound = pygame.mixer.Sound('./assets/sounds/move.wav')
+        self.capture_sound =pygame.mixer.Sound('./assets/sounds/capture.wav')
 
     def draw_positions(self):
         for square in chess.SQUARES:
@@ -67,10 +69,18 @@ class Game:
                     promotion = chess.QUEEN
             move = chess.Move(start_square, end_square, promotion=promotion)
             if move in self.board.legal_moves:
+                if self.board.is_capture(move):
+                    self.capture_sound.play()
+                else:
+                    self.move_sound.play()
                 self.board.push(move)
+
                 if not self.board.is_game_over():
                     move = find_best_move(self.board, depth=3)
                     print(f'move : {move}')
+
+                    if self.board.is_capture(move):
+                       self.capture_sound.play()
 
                     self.board.push(move)
                 else:
