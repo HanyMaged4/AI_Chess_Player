@@ -23,6 +23,7 @@ class Game:
         self.font = pygame.font.Font(None, 74)
         self.game_over_message = "GAME OVER !"
         self.game_win_message = "WINNER !"
+        self.game_draw_message = "DRAW !"
         self.checkmate_sound = pygame.mixer.Sound('./assets/sounds/checkmate.wav')
         self.move_sound = pygame.mixer.Sound('./assets/sounds/move.wav')
         self.capture_sound =pygame.mixer.Sound('./assets/sounds/capture.wav')
@@ -71,13 +72,16 @@ class Game:
                 if (chess.square_rank(end_square) == 7 and chess.square_rank(start_square) == 6) or\
                         (chess.square_rank(end_square) == 0 and chess.square_rank(start_square) == 1):
                     promotion = chess.QUEEN
+
             move = chess.Move(start_square, end_square, promotion=promotion)
+
             if move in self.board.legal_moves:
                 if self.board.is_capture(move):
                     self.capture_sound.play()
                 else:
                     self.move_sound.play()
                 self.board.push(move)
+
 
                 if not self.board.is_game_over():
 
@@ -90,6 +94,15 @@ class Game:
                     self.board.push(move)
                         
                 else:
+                    if self.board.is_stalemate():
+                        text_surface = self.font.render(self.game_draw_message, True, (0, 255, 0))  
+                        text_rect = text_surface.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
+                        self.screen.blit(text_surface, text_rect) 
+                        pygame.display.flip()  
+                        print('DRAW')
+                        self.capture_sound.play()
+                        pygame.time.wait(3000)
+                        exit()
                     if self.board.is_game_over():
                         text_surface = self.font.render(self.game_win_message, True, (0, 0, 255))  # Red color
                         text_rect = text_surface.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
@@ -100,8 +113,17 @@ class Game:
                         pygame.time.wait(3000)
                         exit()
             else:
+                if self.board.is_stalemate():
+                        text_surface = self.font.render(self.game_draw_message, True, (0, 255, 0))  
+                        text_rect = text_surface.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
+                        self.screen.blit(text_surface, text_rect) 
+                        pygame.display.flip()  
+                        print('DRAW')
+                        self.capture_sound.play()
+                        pygame.time.wait(3000)
+                        exit()
                 if self.board.is_game_over():
-                    text_surface = self.font.render(self.game_over_message, True, (255, 0, 0))  # Red color
+                    text_surface = self.font.render(self.game_over_message, True, (255, 0, 0))
                     text_rect = text_surface.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
                     self.screen.blit(text_surface, text_rect)  
                     pygame.display.flip() 
@@ -109,6 +131,8 @@ class Game:
                     pygame.time.wait(3000)
                     print('GAME OVER!')
                     exit()
+                else:
+                    print('illegal move')
             
             self.mouse_hold = None
             self.holdin_piece = None
