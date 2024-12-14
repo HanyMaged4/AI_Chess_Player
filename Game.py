@@ -20,6 +20,10 @@ class Game:
         self.holdin_piece = None
         self.mouse_is_holding_piece = False
         self.board = chess.Board()
+        self.font = pygame.font.Font(None, 74)
+        self.game_over_message = "GAME OVER !"
+        self.game_win_message = "WINNER !"
+        self.checkmate_sound = pygame.mixer.Sound('./assets/sounds/checkmate.wav')
         self.move_sound = pygame.mixer.Sound('./assets/sounds/move.wav')
         self.capture_sound =pygame.mixer.Sound('./assets/sounds/capture.wav')
 
@@ -76,6 +80,7 @@ class Game:
                 self.board.push(move)
 
                 if not self.board.is_game_over():
+
                     move = find_best_move(self.board, depth=3)
                     print(f'move : {move}')
 
@@ -83,12 +88,28 @@ class Game:
                        self.capture_sound.play()
 
                     self.board.push(move)
+                        
                 else:
-                    print('Game over!')
-                    exit()
+                    if self.board.is_game_over():
+                        text_surface = self.font.render(self.game_win_message, True, (0, 0, 255))  # Red color
+                        text_rect = text_surface.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
+                        self.screen.blit(text_surface, text_rect) 
+                        pygame.display.flip()  
+                        print('WINNER')
+                        self.checkmate_sound.play()
+                        pygame.time.wait(3000)
+                        exit()
             else:
-                print('Illegal move!')
-
+                if self.board.is_game_over():
+                    text_surface = self.font.render(self.game_over_message, True, (255, 0, 0))  # Red color
+                    text_rect = text_surface.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
+                    self.screen.blit(text_surface, text_rect)  
+                    pygame.display.flip() 
+                    self.checkmate_sound.play()
+                    pygame.time.wait(3000)
+                    print('GAME OVER!')
+                    exit()
+            
             self.mouse_hold = None
             self.holdin_piece = None
             self.mouse_is_holding_piece = False

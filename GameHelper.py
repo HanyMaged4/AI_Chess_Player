@@ -25,3 +25,7 @@ class GameHelper:
                                      (x * Configrations.SQUARE_SIZE, y * Configrations.SQUARE_SIZE,
                                       Configrations.SQUARE_SIZE, Configrations.SQUARE_SIZE)
                                      )
+    
+     
+   
+
