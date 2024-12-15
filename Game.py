@@ -3,8 +3,10 @@ from config import Configrations
 from GameHelper import GameHelper
 import chess
 from minimax import find_best_move
+from minimax2 import find_best_move2
 class Game:
-    def __init__(self, screen):
+    def __init__(self, screen,type):
+        self.type = type
         self.screen = screen
         self.pieces_name = ["p", "r", "n", "b", "q", "k", "P", "R", "N", "B", "Q", "K"]
         self.smaill_pieces = {}
@@ -84,8 +86,11 @@ class Game:
 
 
                 if not self.board.is_game_over():
-
-                    move = find_best_move(self.board, depth=3)
+                    move = ' ';
+                    if self.type  == 'advanced' :
+                        move = find_best_move(self.board, depth=3)
+                    else:
+                        move = find_best_move2(self.board, depth=3)
                     print(f'move : {move}')
 
                     if self.board.is_capture(move):
