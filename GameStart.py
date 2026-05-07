@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 class GameStartScreen:
     def __init__(self, screen):
@@ -58,7 +59,7 @@ class GameStartScreen:
     def handle_events(self, event):
         if event.type == pygame.QUIT:
             pygame.quit()
-            exit()
+            sys.exit()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.beginner_button_rect.collidepoint(event.pos):

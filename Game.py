@@ -1,4 +1,5 @@
 import pygame
+import sys
 from config import Configrations
 from GameHelper import GameHelper
 import chess
@@ -107,7 +108,7 @@ class Game:
                         print('DRAW')
                         self.capture_sound.play()
                         pygame.time.wait(3000)
-                        exit()
+                        sys.exit()
                     if self.board.is_game_over():
                         text_surface = self.font.render(self.game_win_message, True, (0, 0, 255))  # Red color
                         text_rect = text_surface.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
@@ -116,7 +117,7 @@ class Game:
                         print('WINNER')
                         self.checkmate_sound.play()
                         pygame.time.wait(3000)
-                        exit()
+                        sys.exit()
             else:
                 if self.board.is_stalemate():
                         text_surface = self.font.render(self.game_draw_message, True, (0, 255, 0))  
@@ -126,7 +127,7 @@ class Game:
                         print('DRAW')
                         self.capture_sound.play()
                         pygame.time.wait(3000)
-                        exit()
+                        sys.exit()
                 if self.board.is_game_over():
                     text_surface = self.font.render(self.game_over_message, True, (255, 0, 0))
                     text_rect = text_surface.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
@@ -135,7 +136,7 @@ class Game:
                     self.checkmate_sound.play()
                     pygame.time.wait(3000)
                     print('GAME OVER!')
-                    exit()
+                    sys.exit()
                 else:
                     print('illegal move')
             
